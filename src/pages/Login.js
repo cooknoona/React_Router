@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, StyledInput, StyledButton } from "../styles/CommonStyle";
+import { UserContext } from "../context/UserStore";
 
 const Login = () => {
   // 키보드 입력에 대한 상태 관리
@@ -12,6 +13,9 @@ const Login = () => {
   const [isPw, setIsPw] = useState("");
 
   const navigate = useNavigate(); // 페이지 이동을 위한 객체 생성
+
+  const context = useContext(UserContext);
+  const { setUserId, setPassword, color } = context;
 
   const onChangeId = (e) => {
     setInputId(e.target.value);
@@ -27,6 +31,8 @@ const Login = () => {
     // 이 구간에서 Axios 비동기 통신 호출
     // 그리고 결과 수신
     // 결과값 확인
+    setUserId(inputId);
+    setPassword(inputPw);
     if (inputId === "cook961004" && inputPw === "hi123123") {
       navigate("/home");
     } else {
@@ -35,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <Container color={color}>
       <StyledInput value={inputId} placeholder="ID 입력" onChange={onChangeId} />
       <br />
       <StyledInput value={inputPw} placeholder="PW 입력" onChange={onChangePw} />
